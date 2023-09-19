@@ -5,7 +5,7 @@ import android.annotation.SuppressLint;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 
 @TeleOp(name = "Drive Test", group = "Linear Opmode")
 public class driveTest extends LinearOpMode {
@@ -32,10 +32,10 @@ public class driveTest extends LinearOpMode {
         rightBackDriveMotor.setDirection(DcMotor.Direction.REVERSE);
 
         //Set Zero Power Behavior
-        //leftFrontDriveMotor
-        //rightFrontDriveMotor
-        //leftBackDriveMotor
-       // rightBackDriveMotor
+        leftFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBackDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBackDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //Telemetry(information that gets sent to drive station for quick feedback)
     }
