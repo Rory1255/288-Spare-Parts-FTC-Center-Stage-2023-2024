@@ -77,8 +77,8 @@ public class commercialTest extends LinearOpMode {
     public void runOpMode() {
         leftFrontDriveMotor = hardwareMap.get(DcMotor.class, "leftFrontDriveMotor");
         rightFrontDriveMotor = hardwareMap.get(DcMotor.class, "rightFrontDriveMotor");
-        leftBackDriveMotor = hardwareMap.get(DcMotor.class, "leftRearDriveMotor");
-        rightBackDriveMotor = hardwareMap.get(DcMotor.class, "rightRearDriveMotor");
+        leftBackDriveMotor = hardwareMap.get(DcMotor.class, "leftBackDriveMotor");
+        rightBackDriveMotor = hardwareMap.get(DcMotor.class, "rightBackDriveMotor");
         elevatorHeightControlMotor = hardwareMap.get(DcMotor.class, "elevatorMotor");
         intakeControlServo = hardwareMap.get(Servo.class, "intakeServo");
         limitSwitch = hardwareMap.get(DigitalChannel.class, "limitSwitch");
