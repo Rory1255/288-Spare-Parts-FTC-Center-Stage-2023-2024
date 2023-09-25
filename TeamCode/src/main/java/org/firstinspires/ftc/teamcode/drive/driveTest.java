@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@TeleOp(name = "Drive Test", group = "Linear Opmode")
+@TeleOp(name = "Drive Test", group = "Linear OpMode")
 public class driveTest extends LinearOpMode {
     //Variable declarations
     private DcMotor leftFrontDriveMotor = null;
