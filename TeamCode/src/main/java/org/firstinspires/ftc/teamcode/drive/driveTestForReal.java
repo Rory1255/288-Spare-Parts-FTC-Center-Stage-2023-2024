@@ -39,6 +39,10 @@ public class driveTestForReal extends LinearOpMode {
         //Loop until stop button is pressed
         while (opModeIsActive()){
 
+            //TODO: 1. Make a test to determine proper direction of motors
+            //TODO: 2. Make a robot centric drive algorithm
+            //TODO: 3. Make a field centric drive algorithm with proper usage of formulas
+
         }
     }
 
