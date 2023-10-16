@@ -42,6 +42,8 @@ public class driveTestForReal extends LinearOpMode {
             //TODO: 1. Make a test to determine proper direction of motors
             //TODO: 2. Make a robot centric drive algorithm
             //TODO: 3. Make a field centric drive algorithm with proper usage of formulas
+            //TODO: 4. Make a servo respond to an input
+            //TODO: 5. Make a servo respond to an input in a more advanced manner
 
         }
     }
