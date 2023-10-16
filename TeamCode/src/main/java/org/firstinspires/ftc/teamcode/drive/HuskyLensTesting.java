@@ -79,7 +79,6 @@ public class HuskyLensTesting extends LinearOpMode {
          * found in the enumeration HuskyLens.Algorithm.
          */
         huskyLens.selectAlgorithm(HuskyLens.Algorithm.OBJECT_TRACKING);
-
         telemetry.update();
         waitForStart();
 
@@ -99,7 +98,7 @@ public class HuskyLensTesting extends LinearOpMode {
              * All algorithms, except for LINE_TRACKING, return a list of Blocks where a
              * Block represents the outline of a recognized object along with its ID number.
              * ID numbers allow you to identify what the device saw.  See the HuskyLens documentation
-             * referenced in the header comment above for more inform.......ation on IDs and how to
+             * referenced in the header comment above for more information on IDs and how to
              * assign them to objects.
              *
              * Returns an empty array if no objects are seen.
@@ -108,7 +107,11 @@ public class HuskyLensTesting extends LinearOpMode {
             telemetry.addData("Block count", blocks.length);
             for (int i = 0; i < blocks.length; i++) {
                 telemetry.addData("Block", blocks[i].toString());
+                if (blocks[i].x == 10){
+                    telemetry.addData("hello", blocks.length);
+                }
             }
+
 
             telemetry.update();
         }

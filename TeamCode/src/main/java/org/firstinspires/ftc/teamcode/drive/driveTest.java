@@ -57,6 +57,8 @@ public class driveTest extends LinearOpMode {
         //Telemetry(information that gets sent to drive station for quick feedback)
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+
+
         waitForStart();
         runtime.reset();
 
