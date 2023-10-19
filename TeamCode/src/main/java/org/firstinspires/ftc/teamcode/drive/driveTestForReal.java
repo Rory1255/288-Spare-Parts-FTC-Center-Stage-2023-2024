@@ -39,6 +39,7 @@ public class driveTestForReal extends LinearOpMode {
     final double JOYSTICK_ROTATION_SENSITIVITY = 1.00;
     //servo
     private CRServo testServo = null;
+    private Servo hookServo = null;
     //imu
     private BNO055IMU imu;
 
@@ -53,6 +54,7 @@ public class driveTestForReal extends LinearOpMode {
        rightRearDriveMotor = hardwareMap.get(DcMotor.class, "Rightreardrivemotor");
 
        testServo = hardwareMap.get(CRServo.class, "testServo");
+       hookServo = hardwareMap.get(Servo.class, "hookServo");
 
        //Setting zero power behavior
        leftRearDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -171,6 +173,7 @@ public class driveTestForReal extends LinearOpMode {
             if (gamepad2.y){
                 testServo.setPower(servo_clockwise_fast);
             }
+
 
 
             telemetry.addData("Servo Power: ", testServo.getPower());
