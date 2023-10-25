@@ -107,7 +107,7 @@ public class HuskyLensTesting extends LinearOpMode {
             telemetry.addData("Block count", blocks.length);
             for (int i = 0; i < blocks.length; i++) {
                 telemetry.addData("Block", blocks[i].toString());
-                if (blocks[i].x == 10){
+                if (blocks[i].x > 10){
                     telemetry.addData("hello", blocks.length);
                 }
             }

@@ -38,7 +38,10 @@ public class driveTestForReal extends LinearOpMode {
     final double JOYSTICK_MOVEMENT_SENSITIVITY = 0.75;
     final double JOYSTICK_ROTATION_SENSITIVITY = 1.00;
     //servos
-    private CRServo intakeServo = null;
+    private CRServo topIntakeServo = null;
+    private CRServo bottomIntakeServo = null;
+    private Servo leftFeedServo = null;
+    private Servo rightFeedServo = null;
     private Servo hookServo = null;
     //imu
     private BNO055IMU imu;
@@ -53,8 +56,12 @@ public class driveTestForReal extends LinearOpMode {
        leftRearDriveMotor = hardwareMap.get(DcMotor.class, "Leftreardrivemotor");
        rightRearDriveMotor = hardwareMap.get(DcMotor.class, "Rightreardrivemotor");
 
-       intakeServo = hardwareMap.get(CRServo.class, "intakeServo");
-       hookServo = hardwareMap.get(Servo.class, "hookServo");
+       topIntakeServo = hardwareMap.get(CRServo.class, "topIntakeServo");
+       bottomIntakeServo = hardwareMap.get(CRServo.class, "bottomIntakeServo");
+       leftFeedServo = hardwareMap.get(Servo.class, "leftFeedServo");
+       rightFeedServo = hardwareMap.get(Servo.class, "rightFeedServo");
+
+      // hookServo = hardwareMap.get(Servo.class, "hookServo");
 
 
        //Setting zero power behavior
@@ -154,33 +161,61 @@ public class driveTestForReal extends LinearOpMode {
                 imu.initialize(parameters);
             }
 
-            //temporary servo power variables
-            double servo_counterclockwise_fast = -1.0;
-            double servo_counterclockwise_slow = -0.5;
-            double servo_clockwise_fast = 1.0;
-            double servo_clockwise_slow = 0.5;
-            double servo_stop = 0.0;
+            //Top Intake Servo variables
+            double topIntakeStop = 0.0;
+            double topIntake = 1.0;
+            double topOuttake = -1.0;
 
-            //servo test buttons
+            //Bottom Intake Servo variables
+            double bottomIntakeStop = 0.0;
+            double bottomIntake = 1.0;
+            double bottomOuttake = -1.0;
+
+            //left feed variables
+            double leftFeedIntake = 0.0;
+            double leftFeedStop = 0.5;
+            double leftFeedOuttake = 1.0;
+
+            //right feed variables
+            double rightFeedIntake = 1.0;
+            double rightFeedStop = 0.5;
+            double rightFeedOuttake = 0.0;
+
+            //intake control
+            if (gamepad2.left_stick_y < 0){
+                topIntakeServo.setPower(topIntake);
+                bottomIntakeServo.setPower(bottomIntake);
+            }
+            if (gamepad2.left_stick_y == 0){
+                topIntakeServo.setPower(topIntakeStop);
+                bottomIntakeServo.setPower(bottomIntakeStop);
+            }
+            if (gamepad2.left_stick_y > 0){
+                topIntakeServo.setPower(topOuttake);
+                bottomIntakeServo.setPower(bottomOuttake);
+            }
+
+            //feed control
+            //feed in
             if (gamepad2.a){
-                intakeServo.setPower(servo_counterclockwise_fast);
+                leftFeedServo.setPosition(leftFeedIntake);
+                rightFeedServo.setPosition(rightFeedIntake);
             }
-            if (gamepad2.dpad_down){
-                intakeServo.setPower(intakeServo.getPower()+0.01);
+            //feed out
+            if (gamepad2.x){
+                leftFeedServo.setPosition(leftFeedOuttake);
+                rightFeedServo.setPosition(rightFeedOuttake);
             }
-            if (gamepad2.dpad_up){
-                intakeServo.setPower(intakeServo.getPower()-0.01);
-            }
-            if (gamepad2.b){
-                intakeServo.setPower(servo_stop);
-            }
+            //feed stop
             if (gamepad2.y){
-                intakeServo.setPower(servo_clockwise_fast);
+                leftFeedServo.setPosition(leftFeedStop);
+                rightFeedServo.setPosition(rightFeedStop);
             }
 
 
 
-            telemetry.addData("Servo Power: ", intakeServo.getPower());
+
+
             telemetry.update();
         }
     }
