@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.configuration.annotations.ServoType;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -31,17 +32,19 @@ public class CompetitionReadyTeleOp extends LinearOpMode {
     private DcMotor rightFrontDriveMotor = null;
     private DcMotor leftRearDriveMotor = null;
     private DcMotor rightRearDriveMotor = null;
-    private DcMotor armExtensionLeft = null;
-    private DcMotor armExtensionRight = null;
+    private DcMotor armExtensionFront = null;
+    private DcMotor armExtensionBack = null;
     private DcMotor armHeightMotor = null;
-    private DcMotor extensionEncoder = null;
-    private DcMotor heightEncoder = null;
+
     //joystick variables
     final double JOYSTICK_DEAD_ZONE = 0.20;
     final double JOYSTICK_MOVEMENT_SENSITIVITY = 0.75;
     final double JOYSTICK_ROTATION_SENSITIVITY = 1.00;
     //servos
-    private CRServo intakeServo = null;
+    private CRServo intakeServoTop = null;
+    private CRServo intakeServoBottom = null;
+    private Servo leftFeedServo = null;
+    private Servo rightFeedServo = null;
     private Servo hookServo = null;
     private Servo planeServo = null;
     //imu
@@ -57,12 +60,15 @@ public class CompetitionReadyTeleOp extends LinearOpMode {
         leftRearDriveMotor = hardwareMap.get(DcMotor.class, "Leftreardrivemotor");
         rightRearDriveMotor = hardwareMap.get(DcMotor.class, "Rightreardrivemotor");
 
-        intakeServo = hardwareMap.get(CRServo.class, "intakeServo");
+        intakeServoTop = hardwareMap.get(CRServo.class, "intakeServoTop");
+        intakeServoBottom = hardwareMap.get(CRServo.class, "intakeServoBottom");
+        leftFeedServo = hardwareMap.get(Servo.class, "leftFeedServo");
+        rightFeedServo = hardwareMap.get(Servo.class, "rightFeedServo");
         hookServo = hardwareMap.get(Servo.class, "hookServo");
         planeServo = hardwareMap.get(Servo.class, "planeServo");
 
-        armExtensionLeft = hardwareMap.get(DcMotor.class, "armExtensionLeft");
-        armExtensionRight = hardwareMap.get(DcMotor.class, "armExtensionRight");
+        armExtensionFront = hardwareMap.get(DcMotor.class, "armExtensionFront");
+        armExtensionBack = hardwareMap.get(DcMotor.class, "armExtensionBack");
         armHeightMotor = hardwareMap.get(DcMotor.class, "armHeightMotor");
 
         //Set Run Without Encoders
@@ -71,9 +77,6 @@ public class CompetitionReadyTeleOp extends LinearOpMode {
         leftRearDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightRearDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        armExtensionLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        armExtensionRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        armHeightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //Setting zero power behavior
         leftRearDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -81,8 +84,8 @@ public class CompetitionReadyTeleOp extends LinearOpMode {
         leftFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        armExtensionLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        armExtensionRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //armExtensionFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //armExtensionBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armHeightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //Setting motor direction after empirical testing
@@ -91,6 +94,10 @@ public class CompetitionReadyTeleOp extends LinearOpMode {
         leftRearDriveMotor.setDirection(DcMotor.Direction.FORWARD);
         rightRearDriveMotor.setDirection(DcMotor.Direction.REVERSE);
 
+        armExtensionFront.setDirection(DcMotor.Direction.REVERSE);
+        armExtensionBack.setDirection(DcMotor.Direction.FORWARD);
+
+        armHeightMotor.setDirection(DcMotor.Direction.FORWARD);
 
         //wait for start button to be pressed
         waitForStart();
@@ -173,68 +180,44 @@ public class CompetitionReadyTeleOp extends LinearOpMode {
             if (gamepad1.y) {
                 imu.initialize(parameters);
             }
-            //TODO: Swap intake servo values if needed after testing
-            //Intake Servo Variables
-            double intakePixel = -1.0;
-            double outtakePixel = 1.0;
-            double stopIntake = 0.0;
+            //Top Intake Servo variables
+            double topIntakeStop = 0.0;
+            double topIntake = 1.0;
+            double topOuttake = -1.0;
 
-            //Pixel Hook Servo Variables
-            double releasePixel = 0.5;
-            double pinPixel = 1.0;
-            double stowHook = 0.0;
+            //Bottom Intake Servo variables
+            double bottomIntakeStop = 0.0;
+            double bottomIntake = 1.0;
+            double bottomOuttake = -1.0;
 
-            //Driver Controls
-            //Driver Intake Override
-            if (gamepad1.dpad_down){
-                intakeServo.setPower(intakePixel);
-            }
-            if (gamepad1.dpad_up){
-                intakeServo.setPower(outtakePixel);
-            }
+            //left feed variables
+            double leftFeedIntake = 0.0;
+            double leftFeedStop = 0.5;
+            double leftFeedOuttake = 1.0;
 
-            //Driver Hook Override
-            if (gamepad1.left_bumper){
-                hookServo.setPosition(releasePixel);
-            }
-            if (gamepad1.right_bumper){
-                hookServo.setPosition(pinPixel);
-            }
-            if (gamepad1.left_bumper && gamepad1.right_bumper){
-                hookServo.setPosition(stowHook);
-            }
+            //right feed variables
+            double rightFeedIntake = 1.0;
+            double rightFeedStop = 0.5;
+            double rightFeedOuttake = 0.0;
 
-            //Operator intake control
-            if (gamepad2.left_trigger > 0.000){
-                intakeServo.setPower(intakePixel);
+            //intake control
+            if (gamepad2.left_trigger > 0.0001){
+                intakeServoTop.setPower(topIntake);
+                intakeServoBottom.setPower(bottomIntake);
+                leftFeedServo.setPosition(leftFeedIntake);
+                rightFeedServo.setPosition(rightFeedIntake);
             }
-            if (gamepad2.left_trigger > 0.000 && gamepad2.left_trigger < 0.001){
-                intakeServo.setPower(stopIntake);
+            if (gamepad2.left_stick_y == 0){
+                intakeServoTop.setPower(topIntakeStop);
+                intakeServoBottom.setPower(bottomIntakeStop);
+                leftFeedServo.setPosition(leftFeedStop);
+                rightFeedServo.setPosition(rightFeedStop);
             }
-            //Operator outtake control
-            if (gamepad2.right_trigger > 0.000){
-                intakeServo.setPower(outtakePixel);
-            }
-            if (gamepad2.right_trigger > 0.000 && gamepad2.right_trigger < 0.001){
-                intakeServo.setPower(stopIntake);
-            }
-            double tempFloorposition = 0;
-            //Arm height control
-            if(gamepad2.a) {
-                armHeightMotor.setPower(tempFloorposition);
-            }
-            double releasePlane = 1.0;
-            if(gamepad2.x) {
-                planeServo.setPosition(releasePlane);
-            }
-            if (gamepad2.left_bumper){
-                hookServo.setPosition(releasePixel);
-            }
-            if (gamepad2.right_bumper){
-                hookServo.setPosition(pinPixel);
-            }
-            if (gamepad2.right_bumper && gamepad2.left_bumper){
-                hookServo.setPosition(stowHook);
+            if (gamepad2.left_stick_y < 0){
+                intakeServoTop.setPower(topOuttake);
+                intakeServoBottom.setPower(bottomOuttake);
+                leftFeedServo.setPosition(leftFeedOuttake);
+                rightFeedServo.setPosition(rightFeedOuttake);
             }
             telemetry.update();
         }
