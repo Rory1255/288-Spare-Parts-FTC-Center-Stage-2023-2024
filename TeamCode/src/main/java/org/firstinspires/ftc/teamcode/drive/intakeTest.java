@@ -3,12 +3,14 @@ package org.firstinspires.ftc.teamcode.drive;
 import android.annotation.SuppressLint;
 
 import com.acmerobotics.roadrunner.Line;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+@Disabled
 @TeleOp(name = "Intake Test", group = "Linear OpMode")
 public class intakeTest extends LinearOpMode {
     private final ElapsedTime runtime = new ElapsedTime();
