@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
+@Disabled
 public final class PoseMessage {
     public long timestamp;
     public double x;
