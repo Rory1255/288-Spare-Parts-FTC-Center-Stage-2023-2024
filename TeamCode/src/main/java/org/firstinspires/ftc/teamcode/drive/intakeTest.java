@@ -10,22 +10,20 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Disabled
+
 @TeleOp(name = "Intake Test", group = "Linear OpMode")
 public class intakeTest extends LinearOpMode {
     private final ElapsedTime runtime = new ElapsedTime();
     private CRServo topIntakeServo = null;
     private CRServo bottomIntakeServo = null;
-    private Servo leftFeedServo = null;
-    private Servo rightFeedServo = null;
+    private CRServo leftFeedServo = null;
+    private CRServo rightFeedServo = null;
 
     @SuppressLint("DefaultLocale")
     @Override
     public void runOpMode(){
-        topIntakeServo = hardwareMap.get(CRServo.class, "topIntakeServo");
-        bottomIntakeServo = hardwareMap.get(CRServo.class, "bottomIntakeServo");
-        leftFeedServo = hardwareMap.get(Servo.class, "leftFeedServo");
-        rightFeedServo = hardwareMap.get(Servo.class, "rightFeedServo");
+        leftFeedServo = hardwareMap.get(CRServo.class, "leftFeedServo");
+        rightFeedServo = hardwareMap.get(CRServo.class, "rightFeedServo");
 
         waitForStart();
         runtime.reset();
@@ -42,45 +40,59 @@ public class intakeTest extends LinearOpMode {
              double bottomOuttake = -1.0;
 
              //left feed variables
-             double leftFeedIntake = 0.0;
-             double leftFeedStop = 0.5;
-             double leftFeedOuttake = 1.0;
+             double leftFeedIntake = 1.0;
+             double leftFeedStop = 0.0;
+             double leftFeedOuttake = -1.0;
 
              //right feed variables
-             double rightFeedIntake = 1.0;
-             double rightFeedStop = 0.5;
-             double rightFeedOuttake = 0.0;
+             double rightFeedIntake = -1.0;
+             double rightFeedStop = 0.0;
+             double rightFeedOuttake = 1.0;
 
              //intake control
-             if (gamepad2.left_stick_y < 0){
-                 topIntakeServo.setPower(topIntake);
-                 bottomIntakeServo.setPower(bottomIntake);
+             /*if (gamepad2.left_stick_y < 0){
+                 leftFeedServo.setPower(leftFeedIntake);
+                 rightFeedServo.setPower(rightFeedIntake);;
              }
              if (gamepad2.left_stick_y == 0){
-                 topIntakeServo.setPower(topIntakeStop);
-                 bottomIntakeServo.setPower(bottomIntakeStop);
+                 leftFeedServo.setPower(leftFeedStop);
+                 rightFeedServo.setPower(rightFeedStop);
              }
              if (gamepad2.left_stick_y > 0){
-                 topIntakeServo.setPower(topOuttake);
-                 bottomIntakeServo.setPower(bottomOuttake);
-             }
+                 leftFeedServo.setPower(leftFeedOuttake);
+                 rightFeedServo.setPower(rightFeedOuttake);
+             }*/
+
+
+            if (gamepad2.left_trigger == 1.0){
+                leftFeedServo.setPower(leftFeedIntake);
+                rightFeedServo.setPower(rightFeedIntake);
+            }
+            if (gamepad2.right_trigger == 1.0){
+                leftFeedServo.setPower(leftFeedOuttake);
+                rightFeedServo.setPower(rightFeedOuttake);
+            }
+            if (gamepad2.right_trigger == 0.0 && gamepad2.left_trigger == 0.0){
+                leftFeedServo.setPower(leftFeedStop);
+                rightFeedServo.setPower(rightFeedStop);
+            }
 
              //feed control
              //feed in
-             if (gamepad2.a){
-                 leftFeedServo.setPosition(leftFeedIntake);
-                 rightFeedServo.setPosition(rightFeedIntake);
+            /* if (gamepad2.a){
+                 leftFeedServo.setPower(leftFeedIntake);
+                 rightFeedServo.setPower(rightFeedIntake);
              }
              //feed out
              if (gamepad2.x){
-                 leftFeedServo.setPosition(leftFeedOuttake);
-                 rightFeedServo.setPosition(rightFeedOuttake);
+                 leftFeedServo.setPower(leftFeedOuttake);
+                 rightFeedServo.setPower(rightFeedOuttake);
              }
              //feed stop
              if (gamepad2.y) {
-                 leftFeedServo.setPosition(leftFeedStop);
-                 rightFeedServo.setPosition(rightFeedStop);
-             }
+                 leftFeedServo.setPower(leftFeedStop);
+                 rightFeedServo.setPower(rightFeedStop);
+             }*/
         }
     }
 }

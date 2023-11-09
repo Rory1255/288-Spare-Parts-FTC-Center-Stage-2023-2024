@@ -39,8 +39,8 @@ public class firstCompTeleOp extends LinearOpMode {
     //servo
     private CRServo topIntakeServo = null;
     private CRServo bottomIntakeServo = null;
-    private Servo leftFeedServo = null;
-    private Servo rightFeedServo = null;
+    private CRServo leftFeedServo = null;
+    private CRServo rightFeedServo = null;
     private Servo airplaneServo = null;
 
    /* private double targetHeight = 0;
@@ -73,14 +73,14 @@ public class firstCompTeleOp extends LinearOpMode {
         armExtensionBack = hardwareMap.get(DcMotor.class, "backArmExtensionMotor");
         armHeightMotor = hardwareMap.get(DcMotor.class, "armHeightMotor");
 
-        topIntakeServo = hardwareMap.get(CRServo.class, "topIntakeServo");
-        bottomIntakeServo = hardwareMap.get(CRServo.class, "bottomIntakeServo");
-        leftFeedServo = hardwareMap.get(Servo.class, "leftFeedServo");
-        rightFeedServo = hardwareMap.get(Servo.class, "rightFeedServo");
+       // topIntakeServo = hardwareMap.get(CRServo.class, "topIntakeServo");
+        //bottomIntakeServo = hardwareMap.get(CRServo.class, "bottomIntakeServo");
+        leftFeedServo = hardwareMap.get(CRServo.class, "leftFeedServo");
+        rightFeedServo = hardwareMap.get(CRServo.class, "rightFeedServo");
 
         airplaneMotor = hardwareMap.get(DcMotor.class, "airplaneMotor");
 
-        airplaneServo = hardwareMap.get(Servo.class, "airplaneServo");
+       // airplaneServo = hardwareMap.get(Servo.class, "airplaneServo");
         //set brake mode
         leftRearDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightRearDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -256,44 +256,29 @@ public class firstCompTeleOp extends LinearOpMode {
             double bottomOuttake = -1.0;
 
             //left feed variables
-            double leftFeedIntake = 0.0;
-            double leftFeedStop = 0.5;
+            double leftFeedIntake = -1.0;
+            double leftFeedStop = 0.0;
             double leftFeedOuttake = 1.0;
 
             //right feed variables
             double rightFeedIntake = 1.0;
-            double rightFeedStop = 0.5;
-            double rightFeedOuttake = 0.0;
+            double rightFeedStop = 0.0;
+            double rightFeedOuttake = -1.0;
 
             //intake control
-            if (gamepad2.left_trigger > 0.000){
-                topIntakeServo.setPower(topIntake);
-                bottomIntakeServo.setPower(bottomIntake);
+            if (gamepad2.left_trigger == 1.0){
+                leftFeedServo.setPower(leftFeedIntake);
+                rightFeedServo.setPower(rightFeedIntake);
             }
-            if (gamepad2.left_trigger == 0.000){
-                topIntakeServo.setPower(topIntakeStop);
-                bottomIntakeServo.setPower(bottomIntakeStop);
+            if (gamepad2.right_trigger == 1.0){
+                leftFeedServo.setPower(leftFeedOuttake);
+                rightFeedServo.setPower(rightFeedOuttake);
             }
-            if (gamepad2.right_trigger > 0.000){
-                topIntakeServo.setPower(topOuttake);
-                bottomIntakeServo.setPower(bottomOuttake);
+            if (gamepad2.right_trigger == 0.0 && gamepad2.left_trigger == 0.0){
+                leftFeedServo.setPower(leftFeedStop);
+                rightFeedServo.setPower(rightFeedStop);
             }
-            if (gamepad2.right_trigger > 0.000 && gamepad2.right_trigger < 0.001){
-                topIntakeServo.setPower(topIntakeStop);
-                bottomIntakeServo.setPower(bottomIntakeStop);
-            }
-            if (gamepad2.left_bumper){
-                leftFeedServo.setPosition(leftFeedIntake);
-                rightFeedServo.setPosition(rightFeedIntake);
-            }
-            if (gamepad2.x){
-                leftFeedServo.setPosition(leftFeedStop);
-                rightFeedServo.setPosition(rightFeedStop);
-            }
-            if (gamepad2.right_bumper){
-                leftFeedServo.setPosition(leftFeedOuttake);
-                rightFeedServo.setPosition(rightFeedOuttake);
-            }
+            /*
             double airplaneServoOut = 1.0;
             double airplaneServoStop = 0.5;
             if (gamepad2.a){
@@ -308,7 +293,7 @@ public class firstCompTeleOp extends LinearOpMode {
             }
             if (gamepad2.y == false){
                 airplaneMotor.setPower(0.0);
-            }
+            }*/
 
             if (gamepad2.b){
                 armExtensionFront.setPower(0.0);
