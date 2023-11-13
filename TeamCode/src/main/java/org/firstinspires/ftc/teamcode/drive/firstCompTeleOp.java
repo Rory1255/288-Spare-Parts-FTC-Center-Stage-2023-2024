@@ -80,16 +80,16 @@ public class firstCompTeleOp extends LinearOpMode {
 
         airplaneMotor = hardwareMap.get(DcMotor.class, "airplaneMotor");
 
-       // airplaneServo = hardwareMap.get(Servo.class, "airplaneServo");
+        airplaneServo = hardwareMap.get(Servo.class, "airplaneServo");
         //set brake mode
         leftRearDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightRearDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        armHeightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        armExtensionBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        armExtensionFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //armHeightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //armExtensionBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //armExtensionFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         //motor directions
@@ -278,27 +278,39 @@ public class firstCompTeleOp extends LinearOpMode {
                 leftFeedServo.setPower(leftFeedStop);
                 rightFeedServo.setPower(rightFeedStop);
             }
-            /*
+
             double airplaneServoOut = 1.0;
             double airplaneServoStop = 0.5;
-            if (gamepad2.a){
+            double airplanePower = -1.0;
+            if (gamepad2.dpad_up){
                 airplaneServo.setPosition(airplaneServoOut);
             }
-            if (gamepad2.a == false){
+            if (gamepad2.dpad_up == false){
                 airplaneServo.setPosition(airplaneServoStop);
             }
 
-            if (gamepad2.y){
-                airplaneMotor.setPower(-1.0);
+            if (gamepad2.a){
+                airplaneMotor.setPower(airplanePower * 0.90);
             }
-            if (gamepad2.y == false){
+            if (gamepad2.b){
+                airplaneMotor.setPower(airplanePower * 0.85);
+            }
+            if (gamepad2.x){
+                airplaneMotor.setPower(airplanePower * 0.80);
+            }
+            if (gamepad2.y){
+                airplaneMotor.setPower(airplanePower * 0.77);
+            }
+            if (gamepad2.a == false && gamepad2.b == false && gamepad2.x == false && gamepad2.y == false){
                 airplaneMotor.setPower(0.0);
-            }*/
+            }
 
             if (gamepad2.b){
                 armExtensionFront.setPower(0.0);
                 armExtensionBack.setPower(0.0);
             }
+
+
 
 
 

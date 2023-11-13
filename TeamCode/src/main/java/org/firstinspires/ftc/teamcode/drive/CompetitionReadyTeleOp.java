@@ -24,7 +24,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
-@Disabled
+
 @TeleOp(name = "Competition Ready TeleOp", group = "Linear OpMode")
 public class CompetitionReadyTeleOp extends LinearOpMode {
     private final ElapsedTime runtime = new ElapsedTime();
@@ -39,8 +39,8 @@ public class CompetitionReadyTeleOp extends LinearOpMode {
     //servo
     private CRServo topIntakeServo = null;
     private CRServo bottomIntakeServo = null;
-    private Servo leftFeedServo = null;
-    private Servo rightFeedServo = null;
+    private CRServo leftFeedServo = null;
+    private CRServo rightFeedServo = null;
 
     private double targetHeight = 0;
     private double maxHeight = 2923;
@@ -72,10 +72,10 @@ public class CompetitionReadyTeleOp extends LinearOpMode {
         armExtensionBack = hardwareMap.get(DcMotor.class, "backArmExtensionMotor");
         armHeightMotor = hardwareMap.get(DcMotor.class, "armHeightMotor");
 
-        topIntakeServo = hardwareMap.get(CRServo.class, "topIntakeServo");
-        bottomIntakeServo = hardwareMap.get(CRServo.class, "bottomIntakeServo");
-        leftFeedServo = hardwareMap.get(Servo.class, "leftFeedServo");
-        rightFeedServo = hardwareMap.get(Servo.class, "rightFeedServo");
+       // topIntakeServo = hardwareMap.get(CRServo.class, "topIntakeServo");
+        //bottomIntakeServo = hardwareMap.get(CRServo.class, "bottomIntakeServo");
+        leftFeedServo = hardwareMap.get(CRServo.class, "leftFeedServo");
+        rightFeedServo = hardwareMap.get(CRServo.class, "rightFeedServo");
 
         //set brake mode
         leftRearDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -83,9 +83,9 @@ public class CompetitionReadyTeleOp extends LinearOpMode {
         leftFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        armHeightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        armExtensionBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        armExtensionFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //armHeightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //armExtensionBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+       // armExtensionFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         //motor directions
@@ -218,52 +218,28 @@ public class CompetitionReadyTeleOp extends LinearOpMode {
 
 
 
-            //intake control zone
-            //Top Intake Servo variables
-            double topIntakeStop = 0.0;
-            double topIntake = 1.0;
-            double topOuttake = -1.0;
-
-            //Bottom Intake Servo variables
-            double bottomIntakeStop = 0.0;
-            double bottomIntake = 1.0;
-            double bottomOuttake = -1.0;
-
             //left feed variables
-            double leftFeedIntake = 0.0;
-            double leftFeedStop = 0.5;
+            double leftFeedIntake = -1.0;
+            double leftFeedStop = 0.0;
             double leftFeedOuttake = 1.0;
 
             //right feed variables
             double rightFeedIntake = 1.0;
-            double rightFeedStop = 0.5;
-            double rightFeedOuttake = 0.0;
+            double rightFeedStop = 0.0;
+            double rightFeedOuttake = -1.0;
 
             //intake control
-            if (gamepad2.left_trigger > 0.000){
-                topIntakeServo.setPower(topIntake);
-                bottomIntakeServo.setPower(bottomIntake);
-                leftFeedServo.setPosition(leftFeedIntake);
-                rightFeedServo.setPosition(rightFeedIntake);
+            if (gamepad2.left_trigger == 1.0){
+                leftFeedServo.setPower(leftFeedIntake);
+                rightFeedServo.setPower(rightFeedIntake);
             }
-            if (gamepad2.left_trigger == 0.000){
-                topIntakeServo.setPower(topIntakeStop);
-                bottomIntakeServo.setPower(bottomIntakeStop);
-                leftFeedServo.setPosition(leftFeedStop);
-                rightFeedServo.setPosition(rightFeedStop);
+            if (gamepad2.right_trigger == 1.0){
+                leftFeedServo.setPower(leftFeedOuttake);
+                rightFeedServo.setPower(rightFeedOuttake);
             }
-
-            if (gamepad2.right_trigger > 0.000){
-                topIntakeServo.setPower(topOuttake);
-                bottomIntakeServo.setPower(bottomOuttake);
-                leftFeedServo.setPosition(leftFeedOuttake);
-                rightFeedServo.setPosition(rightFeedOuttake);
-            }
-            if (gamepad2.right_trigger > 0.000 && gamepad2.right_trigger < 0.001){
-                topIntakeServo.setPower(topIntakeStop);
-                bottomIntakeServo.setPower(bottomIntakeStop);
-                leftFeedServo.setPosition(leftFeedStop);
-                rightFeedServo.setPosition(rightFeedStop);
+            if (gamepad2.right_trigger == 0.0 && gamepad2.left_trigger == 0.0){
+                leftFeedServo.setPower(leftFeedStop);
+                rightFeedServo.setPower(rightFeedStop);
             }
 
 
