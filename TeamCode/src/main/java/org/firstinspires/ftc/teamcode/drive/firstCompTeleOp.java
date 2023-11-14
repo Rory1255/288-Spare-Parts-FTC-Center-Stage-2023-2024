@@ -103,6 +103,9 @@ public class firstCompTeleOp extends LinearOpMode {
 
         armHeightMotor.setDirection(DcMotor.Direction.REVERSE);
 
+        airplaneMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
 
         //reset encoders
         /*armHeightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -329,6 +332,7 @@ public class firstCompTeleOp extends LinearOpMode {
             telemetry.addData("back extension value: ", armExtensionBack.getCurrentPosition());
             telemetry.addData("left trigger value: ", gamepad2.left_trigger);
             telemetry.addData("right trigger value: ", gamepad2.right_trigger);
+            telemetry.addData("airplane Power: ", airplaneMotor.getPower());
             telemetry.update();
         }
     }
