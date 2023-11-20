@@ -13,6 +13,7 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -42,6 +43,10 @@ public class firstCompTeleOp extends LinearOpMode {
     private CRServo leftFeedServo = null;
     private CRServo rightFeedServo = null;
     private Servo airplaneServo = null;
+
+    private ColorSensor frontColor = null;
+    private ColorSensor backColor = null;
+
 
    /* private double targetHeight = 0;
     private double maxHeight = 2923;
@@ -83,6 +88,9 @@ public class firstCompTeleOp extends LinearOpMode {
         airplaneMotor = hardwareMap.get(DcMotor.class, "airplaneMotor");
 
         airplaneServo = hardwareMap.get(Servo.class, "airplaneServo");
+
+        frontColor = hardwareMap.get(ColorSensor.class, "frontColor");
+        backColor = hardwareMap.get(ColorSensor.class, "backColor");
         //set brake mode
         leftRearDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightRearDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -106,6 +114,8 @@ public class firstCompTeleOp extends LinearOpMode {
         armHeightMotor.setDirection(DcMotor.Direction.REVERSE);
 
         //airplaneMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
 
 
 
@@ -343,6 +353,12 @@ public class firstCompTeleOp extends LinearOpMode {
             telemetry.addData("left trigger value: ", gamepad2.left_trigger);
             telemetry.addData("right trigger value: ", gamepad2.right_trigger);
             telemetry.addData("airplane Power: ", airplaneMotor.getPower());
+            telemetry.addData("Front Red: ", frontColor.red());
+            telemetry.addData("Front Blue: ", frontColor.blue());
+            telemetry.addData("Front Green: ", frontColor.green());
+            telemetry.addData("Back Red: ", backColor.red());
+            telemetry.addData("Back Blue: ", backColor.blue());
+            telemetry.addData("Back Green: ", backColor.green());
             telemetry.update();
         }
     }
