@@ -24,8 +24,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-@TeleOp(name = "First Comp TeleOp", group = "Linear OpMode")
-public class firstCompTeleOp extends LinearOpMode {
+@TeleOp(name = "basic auto", group = "Linear OpMode")
+public class basicAuto extends LinearOpMode {
     private final ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftFrontDriveMotor = null;
     private DcMotor rightFrontDriveMotor = null;
@@ -73,7 +73,7 @@ public class firstCompTeleOp extends LinearOpMode {
         armExtensionBack = hardwareMap.get(DcMotor.class, "backArmExtensionMotor");
         armHeightMotor = hardwareMap.get(DcMotor.class, "armHeightMotor");
 
-       // topIntakeServo = hardwareMap.get(CRServo.class, "topIntakeServo");
+        // topIntakeServo = hardwareMap.get(CRServo.class, "topIntakeServo");
         //bottomIntakeServo = hardwareMap.get(CRServo.class, "bottomIntakeServo");
         leftBackFeed = hardwareMap.get(CRServo.class, "leftBackFeed");
         rightBackFeed = hardwareMap.get(CRServo.class, "rightBackFeed");
@@ -146,32 +146,41 @@ public class firstCompTeleOp extends LinearOpMode {
         //status telemetry
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+        int i = 0;
+        int step = 0;
 
         while (opModeIsActive()) {
-            //apply field centric math
-            double joystickMovementY = inputScaling(-gamepad1.left_stick_y) * JOYSTICK_MOVEMENT_SENSITIVITY;  // Note: pushing stick forward gives negative value
-            double joystickMovementX = inputScaling(gamepad1.left_stick_x) * JOYSTICK_MOVEMENT_SENSITIVITY;
-            double yaw = (inputScaling(gamepad1.right_stick_x) * JOYSTICK_ROTATION_SENSITIVITY) * 0.75;
-
-            //get robot orientation from imu
-            double robotHeading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-
             //input movement values into vector translation in 2d theorem
-            double theta = -robotHeading;
-            double movementX = joystickMovementX * cos(toRadians(theta)) - joystickMovementY * sin(toRadians(theta));
-            double movementY = joystickMovementX * sin(toRadians(theta)) + joystickMovementY * cos(toRadians(theta));
+            double yaw = 0;
+            double movementX = 0;
+            double movementY = 0;
 
-            //logic to reduce speed of robot when left trigger is pressed and return to full speed when released
-            if (gamepad1.left_trigger > 0.000) {
-                movementX = movementX * 0.45;
-                movementY = movementY * 0.45;
-                yaw = yaw * 0.45;
-            }
-            if (gamepad1.left_trigger > 0.000 && gamepad1.left_trigger < 0.001) {
-                movementX = movementX / 0.45;
-                movementY = movementY / 0.45;
-                yaw = yaw / 0.45;
-            }
+            /*if (step == 1){
+                i+=1;
+                if (i > 1000) {
+                    yaw = 1;
+                    movementY = 1;
+                    movementX = 0;
+                    armHeightMotor.setPower(1);
+                }else{
+                    step = 2;
+                    i = 0;
+                }if(step == 2){
+                    i+=1;
+                    if (i > 2000){
+                        yaw =.5;
+                        movementY = .5;
+                        movementX = 0;
+                    }else{
+                        step = 2;
+                        i = 0;
+                    }
+                }
+            }else{
+                yaw = 0;
+                movementX = 0;
+                movementY = 0;
+            }*/
 
             //set power variables for Mecanum wheels
             double leftFrontPower = (movementY + movementX + yaw);
@@ -206,7 +215,7 @@ public class firstCompTeleOp extends LinearOpMode {
             /*double heightDelta = (gamepad2.left_stick_y * HEIGHT_ADJUST_RATE);
             targetHeight += heightDelta;
 
-            double lengthDelta = (-gamepad2.right_stick_y * LENGTH_ADJUST_RATE);
+            double engthDelta = (-gamepad2.right_stick_y * LENGTH_ADJUST_RATE);
             targetLength += lengthDelta;*/
 
             //min and max of height
@@ -289,8 +298,6 @@ public class firstCompTeleOp extends LinearOpMode {
                 leftBackFeed.setPower(leftFeedStop);
                 rightBackFeed.setPower(rightFeedStop);
             }
-
-
 
             double airplaneServoOut = 1.0;
             double airplaneServoStop = 0.5;
