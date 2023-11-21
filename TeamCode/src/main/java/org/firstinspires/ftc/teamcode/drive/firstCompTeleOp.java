@@ -43,20 +43,11 @@ public class firstCompTeleOp extends LinearOpMode {
     private CRServo leftFeedServo = null;
     private CRServo rightFeedServo = null;
     private Servo airplaneServo = null;
+    private Servo angleServo = null;
 
     private ColorSensor frontColor = null;
     private ColorSensor backColor = null;
 
-
-   /* private double targetHeight = 0;
-    private double maxHeight = 2923;
-    private double targetLength = 0;
-    private double maxLength = 4200;
-
-    private double scorePresetHeight = 500;
-    private double climbPresetHeight = 10;
-    final double HEIGHT_ADJUST_RATE = 40.0;
-    final double LENGTH_ADJUST_RATE = 55.0;*/
 
 
     //joystick variables
@@ -78,8 +69,7 @@ public class firstCompTeleOp extends LinearOpMode {
         armExtensionBack = hardwareMap.get(DcMotor.class, "backArmExtensionMotor");
         armHeightMotor = hardwareMap.get(DcMotor.class, "armHeightMotor");
 
-       // topIntakeServo = hardwareMap.get(CRServo.class, "topIntakeServo");
-        //bottomIntakeServo = hardwareMap.get(CRServo.class, "bottomIntakeServo");
+
         leftBackFeed = hardwareMap.get(CRServo.class, "leftBackFeed");
         rightBackFeed = hardwareMap.get(CRServo.class, "rightBackFeed");
         leftFeedServo = hardwareMap.get(CRServo.class, "leftFeedServo");
@@ -91,15 +81,15 @@ public class firstCompTeleOp extends LinearOpMode {
 
         frontColor = hardwareMap.get(ColorSensor.class, "frontColor");
         backColor = hardwareMap.get(ColorSensor.class, "backColor");
+
+        angleServo = hardwareMap.get(Servo.class, "angleServo");
+
         //set brake mode
         leftRearDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightRearDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        //armHeightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //armExtensionBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //armExtensionFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         //motor directions
@@ -113,24 +103,9 @@ public class firstCompTeleOp extends LinearOpMode {
 
         armHeightMotor.setDirection(DcMotor.Direction.REVERSE);
 
-        //airplaneMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        airplaneMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
-
-
-
-        //reset encoders
-        /*armHeightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armExtensionBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armExtensionFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);*/
-
-        //set run to position mode
-       /* armHeightMotor.setTargetPosition(0);
-        armHeightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        armExtensionFront.setTargetPosition(0);
-        armExtensionFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        armExtensionBack.setTargetPosition(0);
-        armExtensionBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);*/
 
 
         waitForStart();
@@ -258,18 +233,6 @@ public class firstCompTeleOp extends LinearOpMode {
 
 
 
-
-            //intake control zone
-            //Top Intake Servo variables
-            double topIntakeStop = 0.0;
-            double topIntake = 1.0;
-            double topOuttake = -1.0;
-
-            //Bottom Intake Servo variables
-            double bottomIntakeStop = 0.0;
-            double bottomIntake = 1.0;
-            double bottomOuttake = -1.0;
-
             //left feed variables
             double leftFeedIntake = -1.0;
             double leftFeedStop = 0.0;
@@ -287,19 +250,20 @@ public class firstCompTeleOp extends LinearOpMode {
                 leftBackFeed.setPower(leftFeedIntake);
                 rightBackFeed.setPower(rightFeedIntake);
             }
+
             if (gamepad2.right_trigger == 1.0){
                 leftFeedServo.setPower(leftFeedOuttake);
                 rightFeedServo.setPower(rightFeedOuttake);
                 leftBackFeed.setPower(leftFeedOuttake);
                 rightBackFeed.setPower(rightFeedOuttake);
             }
+
             if (gamepad2.right_trigger == 0.0 && gamepad2.left_trigger == 0.0){
                 leftFeedServo.setPower(leftFeedStop);
                 rightFeedServo.setPower(rightFeedStop);
                 leftBackFeed.setPower(leftFeedStop);
                 rightBackFeed.setPower(rightFeedStop);
             }
-
 
 
             double airplaneServoOut = 1.0;
@@ -315,23 +279,18 @@ public class firstCompTeleOp extends LinearOpMode {
             if (gamepad2.a){
                 airplaneMotor.setPower(airplanePower * 0.90);
             }
-            if (gamepad2.b){
-                airplaneMotor.setPower(airplanePower * 0.85);
-            }
-            if (gamepad2.x){
-                airplaneMotor.setPower(airplanePower * 0.80);
-            }
-            if (gamepad2.y){
-                airplaneMotor.setPower(airplanePower * 0.77);
-            }
-            if (gamepad2.a == false && gamepad2.b == false && gamepad2.x == false && gamepad2.y == false){
+            if (gamepad2.a == false){
                 airplaneMotor.setPower(0.0);
             }
-
-            if (gamepad2.b){
-                armExtensionFront.setPower(0.0);
-                armExtensionBack.setPower(0.0);
+            double intakeAngle = 0.5;
+            double outtakeAngle = 0.0;
+            if (gamepad2.x){
+                angleServo.setPosition(intakeAngle);
             }
+            if (gamepad2.b){
+                angleServo.setPosition(outtakeAngle);
+            }
+
 
 
 
@@ -353,6 +312,7 @@ public class firstCompTeleOp extends LinearOpMode {
             telemetry.addData("left trigger value: ", gamepad2.left_trigger);
             telemetry.addData("right trigger value: ", gamepad2.right_trigger);
             telemetry.addData("airplane Power: ", airplaneMotor.getPower());
+            telemetry.addData("Airplane Motor Encoder: ", airplaneMotor.getCurrentPosition());
             telemetry.addData("Front Red: ", frontColor.red());
             telemetry.addData("Front Blue: ", frontColor.blue());
             telemetry.addData("Front Green: ", frontColor.green());
