@@ -15,7 +15,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -187,27 +186,7 @@ public class firstCompTeleOp extends LinearOpMode {
                 imu.initialize(parameters);
             }
 
-            //joystick height control
-            /*double heightDelta = (gamepad2.left_stick_y * HEIGHT_ADJUST_RATE);
-            targetHeight += heightDelta;
 
-            double lengthDelta = (-gamepad2.right_stick_y * LENGTH_ADJUST_RATE);
-            targetLength += lengthDelta;*/
-
-            //min and max of height
-           /* targetHeight = max(-1130.0, targetHeight);
-            targetHeight = min(targetHeight, maxHeight);
-            //min and max of length
-            targetLength = max(0.0, targetLength);
-            targetLength = min(targetLength, maxLength);*/
-
-            //height preset buttons
-            /*if (gamepad2.b){
-                targetHeight = scorePresetHeight;
-            }
-            if (gamepad2.y){
-                targetHeight = climbPresetHeight;
-            }*/
             if (gamepad2.left_stick_y < 0){
                 armHeightMotor.setPower(gamepad2.left_stick_y);
             }
@@ -234,41 +213,63 @@ public class firstCompTeleOp extends LinearOpMode {
 
 
             //left feed variables
-            double leftFeedIntake = -1.0;
+            double leftFeedIntake = -0.25;
             double leftFeedStop = 0.0;
             double leftFeedOuttake = 1.0;
 
+            double leftBackFeedIntake = -1.0;
+            double leftBackFeedStop = 0.0;
+            double leftBackFeedOuttake = 1.0;
+
             //right feed variables
-            double rightFeedIntake = 1.0;
+            double rightFeedIntake = 0.25;
             double rightFeedStop = 0.0;
             double rightFeedOuttake = -1.0;
+
+            double rightBackFeedIntake = 1.0;
+            double rightBackFeedStop = 0.0;
+            double rightBackFeedOuttake = -1.0;
+
+            if (backColor.red() > 160 || backColor.blue() > 160 || backColor.green() > 160){
+                leftFeedIntake = 0.0;
+                rightFeedIntake = 0.0;
+                leftBackFeedIntake = -0.5;
+                rightBackFeedIntake = 0.6;
+                if (frontColor.red() > 160 || frontColor.blue() > 160 || frontColor.green() > 160){
+                    leftBackFeedIntake = 0.0;
+                    rightBackFeedIntake = 0.0;
+
+                }
+            }
+
 
             //intake control
             if (gamepad2.left_trigger == 1.0){
                 leftFeedServo.setPower(leftFeedIntake);
                 rightFeedServo.setPower(rightFeedIntake);
-                leftBackFeed.setPower(leftFeedIntake);
-                rightBackFeed.setPower(rightFeedIntake);
+                leftBackFeed.setPower(leftBackFeedIntake);
+                rightBackFeed.setPower(rightBackFeedIntake);
             }
 
             if (gamepad2.right_trigger == 1.0){
                 leftFeedServo.setPower(leftFeedOuttake);
                 rightFeedServo.setPower(rightFeedOuttake);
-                leftBackFeed.setPower(leftFeedOuttake);
-                rightBackFeed.setPower(rightFeedOuttake);
+                leftBackFeed.setPower(leftBackFeedOuttake);
+                rightBackFeed.setPower(rightBackFeedOuttake);
             }
 
             if (gamepad2.right_trigger == 0.0 && gamepad2.left_trigger == 0.0){
                 leftFeedServo.setPower(leftFeedStop);
                 rightFeedServo.setPower(rightFeedStop);
-                leftBackFeed.setPower(leftFeedStop);
-                rightBackFeed.setPower(rightFeedStop);
+                leftBackFeed.setPower(leftBackFeedStop);
+                rightBackFeed.setPower(rightBackFeedStop);
             }
 
 
             double airplaneServoOut = 1.0;
             double airplaneServoStop = 0.5;
             double airplanePower = -1.0;
+
             if (gamepad2.dpad_up){
                 airplaneServo.setPosition(airplaneServoOut);
             }
@@ -282,8 +283,10 @@ public class firstCompTeleOp extends LinearOpMode {
             if (gamepad2.a == false){
                 airplaneMotor.setPower(0.0);
             }
+
             double intakeAngle = 0.5;
             double outtakeAngle = 0.0;
+
             if (gamepad2.x){
                 angleServo.setPosition(intakeAngle);
             }
