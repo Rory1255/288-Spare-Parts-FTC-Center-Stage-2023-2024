@@ -69,10 +69,10 @@ public class firstCompTeleOp extends LinearOpMode {
         armHeightMotor = hardwareMap.get(DcMotor.class, "armHeightMotor");
 
 
-        leftBackFeed = hardwareMap.get(CRServo.class, "leftBackFeed");
-        rightBackFeed = hardwareMap.get(CRServo.class, "rightBackFeed");
-        leftFeedServo = hardwareMap.get(CRServo.class, "leftFeedServo");
-        rightFeedServo = hardwareMap.get(CRServo.class, "rightFeedServo");
+        leftBackFeed = hardwareMap.get(CRServo.class, "backLeftIntakeServo");
+        rightBackFeed = hardwareMap.get(CRServo.class, "backRightIntakeServo");
+        leftFeedServo = hardwareMap.get(CRServo.class, "frontLeftIntakeServo");
+        rightFeedServo = hardwareMap.get(CRServo.class, "frontRightIntakeServo");
 
         airplaneMotor = hardwareMap.get(DcMotor.class, "airplaneMotor");
 
@@ -213,31 +213,31 @@ public class firstCompTeleOp extends LinearOpMode {
 
 
             //left feed variables
-            double leftFeedIntake = -0.25;
-            double leftFeedStop = 0.0;
-            double leftFeedOuttake = 1.0;
-
-            double leftBackFeedIntake = -1.0;
+            double leftBackFeedIntake = 0.25;
             double leftBackFeedStop = 0.0;
-            double leftBackFeedOuttake = 1.0;
+            double leftBackFeedOuttake = -1.0;
+
+            double leftFeedIntake = 1.0;
+            double leftFeedStop = 0.0;
+            double leftFeedOuttake = -1.0;
 
             //right feed variables
-            double rightFeedIntake = 0.25;
-            double rightFeedStop = 0.0;
-            double rightFeedOuttake = -1.0;
-
-            double rightBackFeedIntake = 1.0;
+            double rightBackFeedIntake = -0.25;
             double rightBackFeedStop = 0.0;
-            double rightBackFeedOuttake = -1.0;
+            double rightBackFeedOuttake = 1.0;
+
+            double rightFeedIntake = -1.0;
+            double rightFeedStop = 0.0;
+            double rightFeedOuttake = 1.0;
 
             if (backColor.red() > 160 || backColor.blue() > 160 || backColor.green() > 160){
-                leftFeedIntake = 0.0;
-                rightFeedIntake = 0.0;
-                leftBackFeedIntake = -0.5;
-                rightBackFeedIntake = 0.6;
+                leftFeedIntake = 0.5;
+                rightFeedIntake = -0.6;
+                leftBackFeedIntake = 0.0;
+                rightBackFeedIntake = 0.0;
                 if (frontColor.red() > 160 || frontColor.blue() > 160 || frontColor.green() > 160){
-                    leftBackFeedIntake = 0.0;
-                    rightBackFeedIntake = 0.0;
+                    leftFeedIntake = 0.0;
+                    rightFeedIntake = 0.0;
 
                 }
             }
@@ -322,6 +322,8 @@ public class firstCompTeleOp extends LinearOpMode {
             telemetry.addData("Back Red: ", backColor.red());
             telemetry.addData("Back Blue: ", backColor.blue());
             telemetry.addData("Back Green: ", backColor.green());
+            telemetry.addData("Odo Test: ", rightFrontDriveMotor.getCurrentPosition());
+            telemetry.addData("Odo test 2 electric boogaloo: ", leftFrontDriveMotor.getCurrentPosition());
             telemetry.update();
         }
     }
