@@ -12,13 +12,14 @@ import com.acmerobotics.roadrunner.ftc.PositionVelocityPair;
 import com.acmerobotics.roadrunner.ftc.RawEncoder;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 @Disabled
 @Config
 public final class ThreeDeadWheelLocalizer implements Localizer {
     public static class Params {
-        public double par0YTicks = 0.0; // y position of the first parallel encoder (in tick units)
-        public double par1YTicks = 1.0; // y position of the second parallel encoder (in tick units)
+        public double par0YTicks = -8238.903575805838; // y position of the first parallel encoder (in tick units)
+        public double par1YTicks = 8421.902960742009; // y position of the second parallel encoder (in tick units)
         public double perpXTicks = 0.0; // x position of the perpendicular encoder (in tick units)
     }
 
@@ -31,9 +32,13 @@ public final class ThreeDeadWheelLocalizer implements Localizer {
     private int lastPar0Pos, lastPar1Pos, lastPerpPos;
 
     public ThreeDeadWheelLocalizer(HardwareMap hardwareMap, double inPerTick) {
-        par0 = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "leftOdoEncoder")));
-        par1 = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "rightOdoEncoder")));
-        perp = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "middleOdoEncoder")));
+        par0 = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "backLeftDriveMotor")));
+        par1 = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "frontLeftDriveMotor")));
+        perp = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "backRightDriveMotor")));
+        par0.setDirection(DcMotorEx.Direction.REVERSE);
+        par1.setDirection(DcMotorEx.Direction.REVERSE);
+        perp.setDirection(DcMotorEx.Direction.REVERSE);
+
 
         lastPar0Pos = par0.getPositionAndVelocity().position;
         lastPar1Pos = par1.getPositionAndVelocity().position;

@@ -97,6 +97,8 @@ public class firstCompTeleOp extends LinearOpMode {
         leftRearDriveMotor.setDirection(DcMotor.Direction.FORWARD);
         rightRearDriveMotor.setDirection(DcMotor.Direction.REVERSE);
 
+
+
         armExtensionFront.setDirection(DcMotor.Direction.FORWARD);
         armExtensionBack.setDirection(DcMotor.Direction.REVERSE);
 
@@ -230,12 +232,12 @@ public class firstCompTeleOp extends LinearOpMode {
             double rightFeedStop = 0.0;
             double rightFeedOuttake = 1.0;
 
-            if (backColor.red() > 160 || backColor.blue() > 160 || backColor.green() > 160){
+            if (backColor.red() > 190 || backColor.blue() > 190 || backColor.green() > 190){
                 leftFeedIntake = 0.5;
                 rightFeedIntake = -0.6;
                 leftBackFeedIntake = 0.0;
                 rightBackFeedIntake = 0.0;
-                if (frontColor.red() > 160 || frontColor.blue() > 160 || frontColor.green() > 160){
+                if (frontColor.red() > 190 || frontColor.blue() > 190 || frontColor.green() > 190){
                     leftFeedIntake = 0.0;
                     rightFeedIntake = 0.0;
 
@@ -322,8 +324,9 @@ public class firstCompTeleOp extends LinearOpMode {
             telemetry.addData("Back Red: ", backColor.red());
             telemetry.addData("Back Blue: ", backColor.blue());
             telemetry.addData("Back Green: ", backColor.green());
-            telemetry.addData("Odo Test: ", rightFrontDriveMotor.getCurrentPosition());
-            telemetry.addData("Odo test 2 electric boogaloo: ", leftFrontDriveMotor.getCurrentPosition());
+            telemetry.addData("Left Odo: ", leftRearDriveMotor.getCurrentPosition());
+            telemetry.addData("Middle Odo: ", rightFrontDriveMotor.getCurrentPosition());
+            telemetry.addData("Right Odo: ", leftFrontDriveMotor.getCurrentPosition());
             telemetry.update();
         }
     }
