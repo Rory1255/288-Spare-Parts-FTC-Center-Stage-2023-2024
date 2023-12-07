@@ -24,6 +24,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+@Disabled
 
 @TeleOp(name = "Competition Ready TeleOp", group = "Linear OpMode")
 public class CompetitionReadyTeleOp extends LinearOpMode {

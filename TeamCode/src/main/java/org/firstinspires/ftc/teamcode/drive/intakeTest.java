@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
+@Disabled
 
 @TeleOp(name = "Intake Test", group = "Linear OpMode")
 public class intakeTest extends LinearOpMode {
