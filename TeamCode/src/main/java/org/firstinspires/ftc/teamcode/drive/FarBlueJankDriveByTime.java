@@ -105,7 +105,7 @@ public class FarBlueJankDriveByTime extends LinearOpMode {
         rightFrontDriveMotor.setPower(backwardSpeed);
         rightRearDriveMotor.setPower(forwardSpeed);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.5)) {
+        while (opModeIsActive() && (runtime.seconds() < 1.4)) {
             telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
@@ -203,12 +203,12 @@ public class FarBlueJankDriveByTime extends LinearOpMode {
         //Step 5: stop arm retraction and strafe right a small amount
         armExtensionFront.setPower(0);
         armExtensionBack.setPower(0);
-        leftFrontDriveMotor.setPower(backwardSpeed);
-        leftRearDriveMotor.setPower(forwardSpeed);
-        rightFrontDriveMotor.setPower(forwardSpeed);
-        rightRearDriveMotor.setPower(backwardSpeed);
+        leftFrontDriveMotor.setPower(forwardSpeed);
+        leftRearDriveMotor.setPower(backwardSpeed);
+        rightFrontDriveMotor.setPower(backwardSpeed);
+        rightRearDriveMotor.setPower(forwardSpeed);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.5)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.8)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
