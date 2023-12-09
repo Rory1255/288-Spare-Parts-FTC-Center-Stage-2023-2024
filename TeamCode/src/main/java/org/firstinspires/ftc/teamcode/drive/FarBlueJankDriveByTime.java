@@ -27,7 +27,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name= "Far Blue Jank Drive By Time Auto (I'm Burnt Out)", group= "Linear OpMode")
+@Autonomous(name= "Far Blue", group= "Linear OpMode")
 public class FarBlueJankDriveByTime extends LinearOpMode {
 
     /* Declare OpMode members. */
