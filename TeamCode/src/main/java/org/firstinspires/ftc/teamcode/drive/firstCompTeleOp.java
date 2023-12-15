@@ -244,7 +244,7 @@ public class firstCompTeleOp extends LinearOpMode {
                 }
             }
 
-            if(gamepad2.dpad_down || gamepad1.dpad_down){
+            if(gamepad2.right_trigger == 1.0){
                 leftFeedServo.setPower(1.0);
                 rightFeedServo.setPower(-1.0);
                 leftBackFeed.setPower(1.0);
@@ -259,7 +259,7 @@ public class firstCompTeleOp extends LinearOpMode {
                 rightBackFeed.setPower(rightBackFeedIntake);
             }
 
-            if (gamepad2.right_trigger == 1.0){
+            if (gamepad2.dpad_down || gamepad1.dpad_down){
                 leftFeedServo.setPower(leftFeedOuttake);
                 rightFeedServo.setPower(rightFeedOuttake);
                 leftBackFeed.setPower(leftBackFeedOuttake);

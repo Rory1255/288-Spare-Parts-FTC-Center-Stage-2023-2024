@@ -136,7 +136,7 @@ public class CloseBlueJankDriveByTime extends LinearOpMode {
         rightRearDriveMotor.setPower(0);
         armHeightMotor.setPower(0.8);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.5)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.1)) {
             telemetry.addData("Pause", "Leg 1: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
@@ -147,7 +147,7 @@ public class CloseBlueJankDriveByTime extends LinearOpMode {
         armExtensionFront.setPower(1.0);
         armExtensionBack.setPower(1.0);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.3)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.5)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
@@ -170,7 +170,7 @@ public class CloseBlueJankDriveByTime extends LinearOpMode {
         rightFeedServo.setPower(0);
         rightBackFeed.setPower(0);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.8)) {
             telemetry.addData("Action", "Leg 1: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
@@ -193,7 +193,7 @@ public class CloseBlueJankDriveByTime extends LinearOpMode {
         rightFeedServo.setPower(0);
         rightBackFeed.setPower(0);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.3)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.5)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.drive;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -26,7 +27,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
-
+@Disabled
 @Autonomous(name= "Far Blue", group= "Linear OpMode")
 public class FarBlueJankDriveByTime extends LinearOpMode {
 
@@ -136,7 +137,7 @@ public class FarBlueJankDriveByTime extends LinearOpMode {
         rightRearDriveMotor.setPower(0);
         armHeightMotor.setPower(0.8);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.5)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.1)) {
             telemetry.addData("Pause", "Leg 1: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
@@ -147,7 +148,7 @@ public class FarBlueJankDriveByTime extends LinearOpMode {
         armExtensionFront.setPower(1.0);
         armExtensionBack.setPower(1.0);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.3)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.5)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
@@ -170,7 +171,7 @@ public class FarBlueJankDriveByTime extends LinearOpMode {
         rightFeedServo.setPower(0);
         rightBackFeed.setPower(0);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.8)) {
             telemetry.addData("Action", "Leg 1: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
@@ -193,7 +194,7 @@ public class FarBlueJankDriveByTime extends LinearOpMode {
         rightFeedServo.setPower(0);
         rightBackFeed.setPower(0);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.3)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.5)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
