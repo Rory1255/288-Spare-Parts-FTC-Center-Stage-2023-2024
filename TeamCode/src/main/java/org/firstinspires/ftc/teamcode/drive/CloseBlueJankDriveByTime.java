@@ -147,7 +147,7 @@ public class CloseBlueJankDriveByTime extends LinearOpMode {
         armExtensionFront.setPower(1.0);
         armExtensionBack.setPower(1.0);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.5)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.85)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
@@ -193,7 +193,7 @@ public class CloseBlueJankDriveByTime extends LinearOpMode {
         rightFeedServo.setPower(0);
         rightBackFeed.setPower(0);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.5)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.85)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
@@ -203,12 +203,24 @@ public class CloseBlueJankDriveByTime extends LinearOpMode {
         //Step 5: stop arm retraction and strafe right a small amount
         armExtensionFront.setPower(0);
         armExtensionBack.setPower(0);
+        leftFrontDriveMotor.setPower(backwardSpeed);
+        leftRearDriveMotor.setPower(forwardSpeed);
+        rightFrontDriveMotor.setPower(forwardSpeed);
+        rightRearDriveMotor.setPower(backwardSpeed);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 1.5)) {
+            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+        //secret new step (step 5.5???)
+        armExtensionFront.setPower(0);
+        armExtensionBack.setPower(0);
         leftFrontDriveMotor.setPower(forwardSpeed);
-        leftRearDriveMotor.setPower(backwardSpeed);
-        rightFrontDriveMotor.setPower(backwardSpeed);
+        leftRearDriveMotor.setPower(forwardSpeed);
+        rightFrontDriveMotor.setPower(forwardSpeed);
         rightRearDriveMotor.setPower(forwardSpeed);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.8)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.5)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
