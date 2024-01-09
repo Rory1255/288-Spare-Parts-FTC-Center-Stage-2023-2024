@@ -10,7 +10,6 @@ import android.annotation.SuppressLint;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -25,9 +24,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-@TeleOp(name = "First Comp TeleOp", group = "Linear OpMode")
-@Disabled
-public class firstCompTeleOp extends LinearOpMode {
+@TeleOp(name = "New Comp TeleOp", group = "Linear OpMode")
+public class NewCompTeleop extends LinearOpMode {
     private final ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftFrontDriveMotor = null;
     private DcMotor rightFrontDriveMotor = null;
@@ -39,15 +37,15 @@ public class firstCompTeleOp extends LinearOpMode {
     private DcMotor airplaneMotor = null;
 
     //servo
-    private CRServo leftBackFeed = null;
-    private CRServo rightBackFeed = null;
+   // private CRServo leftBackFeed = null;
+    //private CRServo rightBackFeed = null;
     private CRServo leftFeedServo = null;
     private CRServo rightFeedServo = null;
     private Servo airplaneServo = null;
     private Servo angleServo = null;
 
-    private ColorSensor frontColor = null;
-    private ColorSensor backColor = null;
+    //private ColorSensor frontColor = null;
+   //private ColorSensor backColor = null;
 
 
 
@@ -71,8 +69,8 @@ public class firstCompTeleOp extends LinearOpMode {
         armHeightMotor = hardwareMap.get(DcMotor.class, "armHeightMotor");
 
 
-        leftBackFeed = hardwareMap.get(CRServo.class, "backLeftIntakeServo");
-        rightBackFeed = hardwareMap.get(CRServo.class, "backRightIntakeServo");
+       // leftBackFeed = hardwareMap.get(CRServo.class, "backLeftIntakeServo");
+        //rightBackFeed = hardwareMap.get(CRServo.class, "backRightIntakeServo");
         leftFeedServo = hardwareMap.get(CRServo.class, "frontLeftIntakeServo");
         rightFeedServo = hardwareMap.get(CRServo.class, "frontRightIntakeServo");
 
@@ -80,8 +78,8 @@ public class firstCompTeleOp extends LinearOpMode {
 
         airplaneServo = hardwareMap.get(Servo.class, "airplaneServo");
 
-        frontColor = hardwareMap.get(ColorSensor.class, "frontColor");
-        backColor = hardwareMap.get(ColorSensor.class, "backColor");
+        //frontColor = hardwareMap.get(ColorSensor.class, "frontColor");
+        //backColor = hardwareMap.get(ColorSensor.class, "backColor");
 
         angleServo = hardwareMap.get(Servo.class, "angleServo");
 
@@ -217,24 +215,17 @@ public class firstCompTeleOp extends LinearOpMode {
 
 
             //left feed variables
-            double leftBackFeedIntake = 0.25;
-            double leftBackFeedStop = 0.0;
-            double leftBackFeedOuttake = -1.0;
 
-            double leftFeedIntake = 1.0;
+            double leftFeedIntake = -1.0;
             double leftFeedStop = 0.0;
-            double leftFeedOuttake = -1.0;
+            double leftFeedOuttake = 1.0;
 
-            //right feed variables
-            double rightBackFeedIntake = -0.25;
-            double rightBackFeedStop = 0.0;
-            double rightBackFeedOuttake = 1.0;
 
-            double rightFeedIntake = -1.0;
+            double rightFeedIntake = 1.0;
             double rightFeedStop = 0.0;
-            double rightFeedOuttake = 1.0;
+            double rightFeedOuttake = -1.0;
 
-            if (backColor.red() > 190 || backColor.blue() > 190 || backColor.green() > 190){
+            /*if (backColor.red() > 190 || backColor.blue() > 190 || backColor.green() > 190){
                 leftFeedIntake = 0.5;
                 rightFeedIntake = -0.6;
                 leftBackFeedIntake = 0.0;
@@ -244,35 +235,35 @@ public class firstCompTeleOp extends LinearOpMode {
                     rightFeedIntake = 0.0;
 
                 }
-            }
+           }*/
 
             if(gamepad2.right_trigger == 1.0){
-                leftFeedServo.setPower(1.0);
-                rightFeedServo.setPower(-1.0);
-                leftBackFeed.setPower(1.0);
-                rightBackFeed.setPower(-1.0);
+                leftFeedServo.setPower(leftFeedOuttake);
+                rightFeedServo.setPower(rightFeedOuttake);
+               // leftBackFeed.setPower(1.0);
+                //.setPower(-1.0);
             }
 
             //intake control
             if (gamepad2.left_trigger == 1.0){
                 leftFeedServo.setPower(leftFeedIntake);
                 rightFeedServo.setPower(rightFeedIntake);
-                leftBackFeed.setPower(leftBackFeedIntake);
-                rightBackFeed.setPower(rightBackFeedIntake);
+                //leftBackFeed.setPower(leftBackFeedIntake);
+                //rightBackFeed.setPower(rightBackFeedIntake);
             }
 
-            if (gamepad2.dpad_down || gamepad1.dpad_down){
+            /*if (gamepad2.dpad_down || gamepad1.dpad_down){
                 leftFeedServo.setPower(leftFeedOuttake);
                 rightFeedServo.setPower(rightFeedOuttake);
-                leftBackFeed.setPower(leftBackFeedOuttake);
-                rightBackFeed.setPower(rightBackFeedOuttake);
-            }
+                //leftBackFeed.setPower(leftBackFeedOuttake);
+                //rightBackFeed.setPower(rightBackFeedOuttake);
+            }*/
 
-            if (gamepad2.right_trigger == 0.0 && gamepad2.left_trigger == 0.0 && !gamepad2.dpad_down && !gamepad1.dpad_down){
+            if (gamepad2.right_trigger == 0.0 && gamepad2.left_trigger == 0.0){
                 leftFeedServo.setPower(leftFeedStop);
                 rightFeedServo.setPower(rightFeedStop);
-                leftBackFeed.setPower(leftBackFeedStop);
-                rightBackFeed.setPower(rightBackFeedStop);
+                //leftBackFeed.setPower(leftBackFeedStop);
+                //rightBackFeed.setPower(rightBackFeedStop);
             }
 
 
@@ -326,12 +317,12 @@ public class firstCompTeleOp extends LinearOpMode {
             telemetry.addData("right trigger value: ", gamepad2.right_trigger);
             telemetry.addData("airplane Power: ", airplaneMotor.getPower());
             telemetry.addData("Airplane Motor Encoder: ", airplaneMotor.getCurrentPosition());
-            telemetry.addData("Front Red: ", frontColor.red());
-            telemetry.addData("Front Blue: ", frontColor.blue());
-            telemetry.addData("Front Green: ", frontColor.green());
-            telemetry.addData("Back Red: ", backColor.red());
-            telemetry.addData("Back Blue: ", backColor.blue());
-            telemetry.addData("Back Green: ", backColor.green());
+            //telemetry.addData("Front Red: ", frontColor.red());
+            //telemetry.addData("Front Blue: ", frontColor.blue());
+            //telemetry.addData("Front Green: ", frontColor.green());
+            //telemetry.addData("Back Red: ", backColor.red());
+            //telemetry.addData("Back Blue: ", backColor.blue());
+            //telemetry.addData("Back Green: ", backColor.green());
             telemetry.addData("Left Odo: ", leftRearDriveMotor.getCurrentPosition());
             telemetry.addData("Middle Odo: ", rightFrontDriveMotor.getCurrentPosition());
             telemetry.addData("Right Odo: ", leftFrontDriveMotor.getCurrentPosition());
@@ -350,4 +341,3 @@ public class firstCompTeleOp extends LinearOpMode {
         return sign * magnitude;
     }
 }
-
