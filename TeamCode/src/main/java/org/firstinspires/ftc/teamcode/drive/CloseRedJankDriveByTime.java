@@ -41,8 +41,7 @@ public class CloseRedJankDriveByTime extends LinearOpMode {
     private DcMotor armExtensionFront = null;
     private DcMotor armExtensionBack = null;
     private DcMotor armHeightMotor = null;
-    private CRServo leftBackFeed = null;
-    private CRServo rightBackFeed = null;
+
     private CRServo leftFeedServo = null;
     private CRServo rightFeedServo = null;
     private Servo angleServo = null;
@@ -64,8 +63,6 @@ public class CloseRedJankDriveByTime extends LinearOpMode {
         armHeightMotor = hardwareMap.get(DcMotor.class, "armHeightMotor");
 
 
-        leftBackFeed = hardwareMap.get(CRServo.class, "backLeftIntakeServo");
-        rightBackFeed = hardwareMap.get(CRServo.class, "backRightIntakeServo");
         leftFeedServo = hardwareMap.get(CRServo.class, "frontLeftIntakeServo");
         rightFeedServo = hardwareMap.get(CRServo.class, "frontRightIntakeServo");
 
@@ -126,7 +123,7 @@ public class CloseRedJankDriveByTime extends LinearOpMode {
         rightFrontDriveMotor.setPower(forwardSpeed);
         rightRearDriveMotor.setPower(forwardSpeed);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.7)) {
+        while (opModeIsActive() && (runtime.seconds() < 1.6)) {
             telemetry.addData("Path", "Leg 2: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
@@ -144,11 +141,23 @@ public class CloseRedJankDriveByTime extends LinearOpMode {
 
         // Step 3:  Set intake servo angle to score on board and extend arm a small distance
         armHeightMotor.setPower(0);
-        angleServo.setPosition(0.0);
+        angleServo.setPosition(0.44);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 0.25)) {
+            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+
         armExtensionFront.setPower(1.0);
         armExtensionBack.setPower(1.0);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.85)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.21)) {
+            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 0.4)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
@@ -157,48 +166,27 @@ public class CloseRedJankDriveByTime extends LinearOpMode {
         armExtensionFront.setPower(0);
         armExtensionBack.setPower(0);
         leftFeedServo.setPower(leftFeedOuttake);
-        leftBackFeed.setPower(leftFeedOuttake);
         rightFeedServo.setPower(rightFeedOuttake);
-        rightBackFeed.setPower(rightFeedOuttake);
+
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 0.3)) {
             telemetry.addData("Action", "Leg 1: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
 
-        leftFeedServo.setPower(0);
-        leftBackFeed.setPower(0);
-        rightFeedServo.setPower(0);
-        rightBackFeed.setPower(0);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.8)) {
-            telemetry.addData("Action", "Leg 1: %4.1f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-
-        leftFeedServo.setPower(leftFeedOuttake);
-        leftBackFeed.setPower(leftFeedOuttake);
-        rightFeedServo.setPower(rightFeedOuttake);
-        rightBackFeed.setPower(rightFeedOuttake);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.5)) {
-            telemetry.addData("Action", "Leg 1: %4.1f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
 
         //Step 4:  Retract arm
         armExtensionFront.setPower(-1.0);
         armExtensionBack.setPower(-1.0);
         leftFeedServo.setPower(0);
-        leftBackFeed.setPower(0);
+
         rightFeedServo.setPower(0);
-        rightBackFeed.setPower(0);
+
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.85)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.21)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
-
 
 
         //Step 5: stop arm retraction and strafe right a small amount
@@ -209,17 +197,18 @@ public class CloseRedJankDriveByTime extends LinearOpMode {
         rightFrontDriveMotor.setPower(backwardSpeed);
         rightRearDriveMotor.setPower(forwardSpeed);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.5)) {
+        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
         //secret new step (step 5.5???)
-        armExtensionFront.setPower(0);
+        /*armExtensionFront.setPower(0);
         armExtensionBack.setPower(0);
         leftFrontDriveMotor.setPower(forwardSpeed);
         leftRearDriveMotor.setPower(forwardSpeed);
         rightFrontDriveMotor.setPower(forwardSpeed);
-        rightRearDriveMotor.setPower(forwardSpeed);
+        rightRearDriveMotor.setPower(forwardSpeed);*/
+
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 0.5)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());

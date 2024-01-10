@@ -216,14 +216,14 @@ public class NewCompTeleop extends LinearOpMode {
 
             //left feed variables
 
-            double leftFeedIntake = -1.0;
+            double leftFeedIntake = 1.0;
             double leftFeedStop = 0.0;
-            double leftFeedOuttake = 1.0;
+            double leftFeedOuttake = -1.0;
 
 
-            double rightFeedIntake = 1.0;
+            double rightFeedIntake = -1.0;
             double rightFeedStop = 0.0;
-            double rightFeedOuttake = -1.0;
+            double rightFeedOuttake = 1.0;
 
             /*if (backColor.red() > 190 || backColor.blue() > 190 || backColor.green() > 190){
                 leftFeedIntake = 0.5;
@@ -238,18 +238,20 @@ public class NewCompTeleop extends LinearOpMode {
            }*/
 
             if(gamepad2.right_trigger == 1.0){
-                leftFeedServo.setPower(leftFeedOuttake);
-                rightFeedServo.setPower(rightFeedOuttake);
-               // leftBackFeed.setPower(1.0);
-                //.setPower(-1.0);
+                rightFeedServo.setPower(rightFeedIntake);
             }
 
             //intake control
             if (gamepad2.left_trigger == 1.0){
                 leftFeedServo.setPower(leftFeedIntake);
-                rightFeedServo.setPower(rightFeedIntake);
-                //leftBackFeed.setPower(leftBackFeedIntake);
-                //rightBackFeed.setPower(rightBackFeedIntake);
+
+            }
+
+            if (gamepad2.right_bumper){
+                rightFeedServo.setPower(rightFeedOuttake);
+            }
+            if (gamepad2.left_bumper){
+                leftFeedServo.setPower(leftFeedOuttake);
             }
 
             /*if (gamepad2.dpad_down || gamepad1.dpad_down){
@@ -259,7 +261,7 @@ public class NewCompTeleop extends LinearOpMode {
                 //rightBackFeed.setPower(rightBackFeedOuttake);
             }*/
 
-            if (gamepad2.right_trigger == 0.0 && gamepad2.left_trigger == 0.0){
+            if (gamepad2.right_trigger == 0.0 && gamepad2.left_trigger == 0.0 && !gamepad2.left_bumper && !gamepad2.right_bumper){
                 leftFeedServo.setPower(leftFeedStop);
                 rightFeedServo.setPower(rightFeedStop);
                 //leftBackFeed.setPower(leftBackFeedStop);
@@ -285,8 +287,8 @@ public class NewCompTeleop extends LinearOpMode {
                 airplaneMotor.setPower(0.0);
             }
 
-            double intakeAngle = 0.5;
-            double outtakeAngle = 0.0;
+            double intakeAngle = 0.4;
+            double outtakeAngle = 0.44;
 
             if (gamepad2.x){
                 angleServo.setPosition(intakeAngle);
