@@ -40,8 +40,7 @@ public class CloseBlueJankDriveByTime extends LinearOpMode {
     private DcMotor armExtensionFront = null;
     private DcMotor armExtensionBack = null;
     private DcMotor armHeightMotor = null;
-    private CRServo leftBackFeed = null;
-    private CRServo rightBackFeed = null;
+
     private CRServo leftFeedServo = null;
     private CRServo rightFeedServo = null;
     private Servo angleServo = null;
@@ -63,8 +62,6 @@ public class CloseBlueJankDriveByTime extends LinearOpMode {
         armHeightMotor = hardwareMap.get(DcMotor.class, "armHeightMotor");
 
 
-        leftBackFeed = hardwareMap.get(CRServo.class, "backLeftIntakeServo");
-        rightBackFeed = hardwareMap.get(CRServo.class, "backRightIntakeServo");
         leftFeedServo = hardwareMap.get(CRServo.class, "frontLeftIntakeServo");
         rightFeedServo = hardwareMap.get(CRServo.class, "frontRightIntakeServo");
 
@@ -105,7 +102,7 @@ public class CloseBlueJankDriveByTime extends LinearOpMode {
         rightFrontDriveMotor.setPower(backwardSpeed);
         rightRearDriveMotor.setPower(forwardSpeed);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.5)) {
+        while (opModeIsActive() && (runtime.seconds() < 1.3)) {
             telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
@@ -125,10 +122,12 @@ public class CloseBlueJankDriveByTime extends LinearOpMode {
         rightFrontDriveMotor.setPower(forwardSpeed);
         rightRearDriveMotor.setPower(forwardSpeed);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.7)) {
+        while (opModeIsActive() && (runtime.seconds() < 1.3)) {
             telemetry.addData("Path", "Leg 2: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
+
+
 
         leftFrontDriveMotor.setPower(0);
         leftRearDriveMotor.setPower(0);
@@ -141,46 +140,37 @@ public class CloseBlueJankDriveByTime extends LinearOpMode {
             telemetry.update();
         }
 
-        // Step 3:  Set intake servo angle to score on board and extend arm a small distance
         armHeightMotor.setPower(0);
-        angleServo.setPosition(0.0);
-        armExtensionFront.setPower(1.0);
-        armExtensionBack.setPower(1.0);
+        angleServo.setPosition(0.44);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.85)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.25)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
-        double leftFeedOuttake = 0.8;
-        double rightFeedOuttake = -0.8;
+
+        armExtensionFront.setPower(1.0);
+        armExtensionBack.setPower(1.0);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 0.17)) {
+            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 0.4)) {
+            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+
+        double leftFeedOuttake = -0.8;
+        double rightFeedOuttake = 0.8;
         armExtensionFront.setPower(0);
         armExtensionBack.setPower(0);
         leftFeedServo.setPower(leftFeedOuttake);
-        leftBackFeed.setPower(leftFeedOuttake);
         rightFeedServo.setPower(rightFeedOuttake);
-        rightBackFeed.setPower(rightFeedOuttake);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.3)) {
-            telemetry.addData("Action", "Leg 1: %4.1f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
 
-        leftFeedServo.setPower(0);
-        leftBackFeed.setPower(0);
-        rightFeedServo.setPower(0);
-        rightBackFeed.setPower(0);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.8)) {
-            telemetry.addData("Action", "Leg 1: %4.1f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-
-        leftFeedServo.setPower(leftFeedOuttake);
-        leftBackFeed.setPower(leftFeedOuttake);
-        rightFeedServo.setPower(rightFeedOuttake);
-        rightBackFeed.setPower(rightFeedOuttake);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.5)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.7)) {
             telemetry.addData("Action", "Leg 1: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
@@ -189,14 +179,16 @@ public class CloseBlueJankDriveByTime extends LinearOpMode {
         armExtensionFront.setPower(-1.0);
         armExtensionBack.setPower(-1.0);
         leftFeedServo.setPower(0);
-        leftBackFeed.setPower(0);
+
         rightFeedServo.setPower(0);
-        rightBackFeed.setPower(0);
+
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.85)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.19)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
+
+
 
 
 
@@ -208,17 +200,18 @@ public class CloseBlueJankDriveByTime extends LinearOpMode {
         rightFrontDriveMotor.setPower(forwardSpeed);
         rightRearDriveMotor.setPower(backwardSpeed);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.5)) {
+        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
         //secret new step (step 5.5???)
-        armExtensionFront.setPower(0);
+       /* armExtensionFront.setPower(0);
         armExtensionBack.setPower(0);
         leftFrontDriveMotor.setPower(forwardSpeed);
         leftRearDriveMotor.setPower(forwardSpeed);
         rightFrontDriveMotor.setPower(forwardSpeed);
         rightRearDriveMotor.setPower(forwardSpeed);
+        */
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 0.5)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());

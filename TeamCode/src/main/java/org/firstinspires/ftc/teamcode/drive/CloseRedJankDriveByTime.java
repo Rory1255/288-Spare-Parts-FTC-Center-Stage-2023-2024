@@ -123,7 +123,7 @@ public class CloseRedJankDriveByTime extends LinearOpMode {
         rightFrontDriveMotor.setPower(forwardSpeed);
         rightRearDriveMotor.setPower(forwardSpeed);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.6)) {
+        while (opModeIsActive() && (runtime.seconds() < 1.4)) {
             telemetry.addData("Path", "Leg 2: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
@@ -151,7 +151,7 @@ public class CloseRedJankDriveByTime extends LinearOpMode {
         armExtensionFront.setPower(1.0);
         armExtensionBack.setPower(1.0);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.21)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.17)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
@@ -161,15 +161,15 @@ public class CloseRedJankDriveByTime extends LinearOpMode {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
-        double leftFeedOuttake = 0.8;
-        double rightFeedOuttake = -0.8;
+        double leftFeedOuttake = -0.8;
+        double rightFeedOuttake = 0.8;
         armExtensionFront.setPower(0);
         armExtensionBack.setPower(0);
         leftFeedServo.setPower(leftFeedOuttake);
         rightFeedServo.setPower(rightFeedOuttake);
 
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.3)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.7)) {
             telemetry.addData("Action", "Leg 1: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
@@ -183,7 +183,7 @@ public class CloseRedJankDriveByTime extends LinearOpMode {
         rightFeedServo.setPower(0);
 
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.21)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.17)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
